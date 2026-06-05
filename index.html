@@ -60,35 +60,35 @@ tr:hover td{background:rgba(255,255,255,.02);}
 .modal-box{background:var(--surface);border:1px solid var(--border);border-radius:16px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;padding:24px;}
 .notif{position:fixed;bottom:90px;right:16px;background:var(--surface2);border:1px solid var(--accent);border-radius:10px;padding:11px 16px;font-size:.8rem;z-index:200;animation:slideUp .3s ease;max-width:300px;}
 @keyframes slideUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
-
+ 
 /* MOBILE NAV */
 .mobile-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(10,12,16,.96);border-top:1px solid var(--border);backdrop-filter:blur(12px);z-index:50;display:flex;justify-content:space-around;padding:8px 0 max(8px,env(safe-area-inset-bottom));}
 .mobile-nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 12px;border-radius:8px;cursor:pointer;border:none;background:transparent;color:var(--muted);font-size:.6rem;font-family:'Syne',sans-serif;letter-spacing:.05em;text-transform:uppercase;transition:all .18s;}
 .mobile-nav-btn.active{color:var(--accent);}
 .mobile-nav-btn .nav-icon{font-size:1.25rem;}
-
+ 
 /* CHAT */
 .chat-bubble{max-width:80%;padding:10px 14px;border-radius:14px;font-size:.82rem;line-height:1.5;margin-bottom:8px;}
 .chat-bubble.bot{background:var(--surface2);border:1px solid var(--border);border-bottom-left-radius:4px;align-self:flex-start;}
 .chat-bubble.user{background:rgba(0,229,160,.12);border:1px solid rgba(0,229,160,.25);border-bottom-right-radius:4px;align-self:flex-end;}
 .chat-wrap{display:flex;flex-direction:column;gap:2px;}
-
+ 
 /* BANK CARDS */
 .bank-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:12px;transition:all .18s;}
 .bank-card:hover{border-color:rgba(0,229,160,.3);}
 .bank-logo{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:800;font-family:'Space Mono',monospace;}
-
+ 
 /* Pulse dot */
 .pulse{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 2s ease infinite;}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.3);}}
-
+ 
 /* Quick action chips */
 .chip{display:inline-block;padding:5px 12px;border-radius:20px;font-size:.72rem;cursor:pointer;border:1px solid var(--border);background:var(--surface2);color:var(--text);transition:all .15s;white-space:nowrap;}
 .chip:hover{border-color:var(--accent);color:var(--accent);}
 </style>
 </head>
 <body>
-
+ 
 <!-- HEADER -->
 <header class="z1 sticky top-0" style="background:rgba(10,12,16,.94);border-bottom:1px solid var(--border);backdrop-filter:blur(10px);z-index:50;">
   <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
@@ -123,22 +123,36 @@ tr:hover td{background:rgba(255,255,255,.02);}
     </select>
   </div>
 </header>
-
+ 
 <main class="z1 max-w-6xl mx-auto px-4 py-5">
-
+ 
 <!-- ══════════ DASHBOARD ══════════ -->
 <div id="section-dashboard" class="section active fade-in">
-
+ 
+  <!-- QUINCENA BANNER -->
+  <div id="quincena-banner" style="display:none;" class="card p-4 mb-4" style="background:linear-gradient(135deg,rgba(0,229,160,.1),rgba(79,138,255,.05));border-color:rgba(0,229,160,.4);">
+    <div class="flex items-center justify-between flex-wrap gap-3">
+      <div>
+        <div style="font-weight:800;font-size:.95rem;">🎉 ¡Hoy es día de quincena!</div>
+        <div style="font-size:.78rem;color:var(--muted);margin-top:2px;">¿Ya te depositaron? Registrá tu ingreso de <strong style="color:var(--accent);">S/ 1,107.87</strong> en Interbank</div>
+      </div>
+      <div class="flex gap-2">
+        <button class="btn btn-primary" onclick="registrarQuincena()">💰 Registrar quincena</button>
+        <button class="btn btn-ghost" onclick="document.getElementById('quincena-banner').style.display='none'" style="padding:8px 10px;">✕</button>
+      </div>
+    </div>
+  </div>
+ 
   <!-- METRICS GRID -->
   <div class="grid gap-3 mb-4" style="grid-template-columns:repeat(auto-fit,minmax(175px,1fr));">
-
+ 
     <div class="card p-4">
       <div class="accent-bar mb-2" style="background:var(--accent);width:36px;"></div>
       <div class="metric-label mb-1">💼 Ingreso Bruto</div>
       <div class="metric-val" style="color:var(--accent);" id="m-bruto">S/ 2,500</div>
       <div style="font-size:.7rem;color:var(--muted);margin-top:3px;">Sueldo fijo mensual</div>
     </div>
-
+ 
     <div class="card p-4">
       <div class="accent-bar mb-2" style="background:var(--accent2);width:36px;"></div>
       <div class="metric-label mb-1">🏛️ Sueldo Neto AFP</div>
@@ -147,14 +161,14 @@ tr:hover td{background:rgba(255,255,255,.02);}
       <button onclick="toggleAfpDetail()" style="font-size:.65rem;color:var(--accent2);background:none;border:none;cursor:pointer;margin-top:5px;text-decoration:underline;">Ver detalle ▾</button>
       <div id="afp-detail-box" style="display:none;margin-top:8px;padding:10px;background:var(--surface2);border-radius:8px;font-family:'Space Mono',monospace;font-size:.65rem;line-height:1.9;"></div>
     </div>
-
+ 
     <div class="card p-4">
       <div class="accent-bar mb-2" style="background:var(--accent3);width:36px;"></div>
       <div class="metric-label mb-1">💸 Gastos Totales</div>
       <div class="metric-val" style="color:var(--accent3);" id="m-gastos">S/ 0</div>
       <div style="font-size:.7rem;color:var(--muted);margin-top:3px;" id="m-gastos-sub">0 transacciones</div>
     </div>
-
+ 
     <div class="card p-4">
       <div class="accent-bar mb-2" style="background:var(--accent4);width:36px;"></div>
       <div class="metric-label mb-1">🐷 Ahorro Neto</div>
@@ -162,23 +176,23 @@ tr:hover td{background:rgba(255,255,255,.02);}
       <div class="progress-track mt-2"><div class="progress-fill" id="ahorro-bar" style="background:var(--accent4);width:0%;"></div></div>
       <div style="font-size:.65rem;color:var(--muted);margin-top:3px;" id="ahorro-pct">0% del neto</div>
     </div>
-
+ 
     <div class="card p-4">
       <div class="accent-bar mb-2" style="background:var(--purple);width:36px;"></div>
       <div class="metric-label mb-1">🏦 Saldo Bancos</div>
       <div class="metric-val" style="color:var(--purple);" id="m-bancos-total">S/ —</div>
       <div style="font-size:.7rem;color:var(--muted);margin-top:3px;">BBVA + IBK + BCP</div>
     </div>
-
+ 
     <div class="card p-4">
       <div class="accent-bar mb-2" style="background:var(--orange);width:36px;"></div>
       <div class="metric-label mb-1">🎁 Grati + CTS</div>
       <div class="metric-val" style="color:var(--orange);" id="m-extra">S/ —</div>
       <div style="font-size:.7rem;color:var(--muted);margin-top:3px;">Jul/Dic + May/Nov</div>
     </div>
-
+ 
   </div>
-
+ 
   <!-- CHARTS ROW 1 -->
   <div class="grid gap-3 mb-3" style="grid-template-columns:1fr 1fr;">
     <div class="card p-4">
@@ -199,7 +213,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
       <div style="position:relative;height:210px;"><canvas id="chartDonut"></canvas></div>
     </div>
   </div>
-
+ 
   <!-- CHARTS ROW 2 -->
   <div class="grid gap-3 mb-3" style="grid-template-columns:1fr 1fr;">
     <div class="card p-4">
@@ -214,7 +228,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
       <div style="position:relative;height:180px;"><canvas id="chartRadar"></canvas></div>
     </div>
   </div>
-
+ 
   <!-- TABLA RESUMEN -->
   <div class="card p-4">
     <div class="metric-label mb-3">📋 Tabla Resumen Mensual</div>
@@ -226,7 +240,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
     </div>
   </div>
 </div>
-
+ 
 <!-- ══════════ BANCOS ══════════ -->
 <div id="section-bancos" class="section fade-in">
   <div class="flex items-center justify-between mb-4">
@@ -236,7 +250,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
     </div>
     <button class="btn btn-primary" onclick="openBancoModal()">✏️ Editar saldos</button>
   </div>
-
+ 
   <!-- BANK CARDS -->
   <div class="grid gap-3 mb-5" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr));">
     <div class="bank-card" id="banco-bbva-card">
@@ -264,7 +278,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
       <div style="font-size:1.3rem;">🟡</div>
     </div>
   </div>
-
+ 
   <!-- Totales bancos -->
   <div class="card p-5 mb-4" style="background:linear-gradient(135deg,rgba(167,139,250,.08),rgba(0,229,160,.05));">
     <div class="flex items-center justify-between">
@@ -285,14 +299,14 @@ tr:hover td{background:rgba(255,255,255,.02);}
       <span>🟡 BCP: <span id="banco-pct-bcp" class="mono">—</span></span>
     </div>
   </div>
-
+ 
   <!-- Chart bancos -->
   <div class="card p-4">
     <div class="metric-label mb-3">📊 Distribución por banco</div>
     <div style="position:relative;height:200px;max-width:350px;margin:0 auto;"><canvas id="chartBancos"></canvas></div>
   </div>
 </div>
-
+ 
 <!-- ══════════ GASTOS ══════════ -->
 <div id="section-gastos" class="section fade-in">
   <div class="flex items-center justify-between mb-3">
@@ -338,12 +352,12 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <div class="card p-4"><div class="metric-label mb-1">🔀 Gastos Variables</div><div class="metric-val" style="color:var(--accent3);" id="total-variables">S/ 0</div></div>
   </div>
 </div>
-
+ 
 <!-- ══════════ SCANNER ══════════ -->
 <div id="section-scanner" class="section fade-in">
   <h2 style="font-weight:800;font-size:1.05rem;margin-bottom:4px;">📷 Scanner IA de Comprobantes</h2>
   <p style="font-size:.8rem;color:var(--muted);margin-bottom:16px;">Subí foto de boleta, ticket, Yape, Plin o transferencia. La IA detecta <strong>ingresos y gastos</strong> y te pide confirmación.</p>
-
+ 
   <div class="upload-zone p-8 text-center mb-5" id="uploadZone"
        onclick="document.getElementById('fileInput').click()"
        ondragover="event.preventDefault();this.classList.add('dragover')"
@@ -361,7 +375,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
     </div>
     <input type="file" id="fileInput" accept="image/*" style="display:none;" onchange="handleFile(this.files[0])" capture="environment" />
   </div>
-
+ 
   <div id="scannerResult" style="display:none;">
     <div class="grid gap-4" style="grid-template-columns:1fr 1fr;">
       <div>
@@ -433,13 +447,13 @@ tr:hover td{background:rgba(255,255,255,.02);}
       </div>
     </div>
   </div>
-
+ 
   <div class="mt-4" id="scanHistorial" style="display:none;">
     <div class="metric-label mb-2">🕒 Escaneados recientemente</div>
     <div id="scanHistorialList" class="grid gap-2"></div>
   </div>
 </div>
-
+ 
 <!-- ══════════ CHAT IA ══════════ -->
 <div id="section-chat" class="section fade-in">
   <div class="flex items-center gap-2 mb-4">
@@ -447,7 +461,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <div><h2 style="font-weight:800;font-size:1.05rem;">Chat IA Financiero</h2>
     <div style="font-size:.76rem;color:var(--muted);">Decime un ingreso o gasto y lo registro automáticamente</div></div>
   </div>
-
+ 
   <!-- Quick chips -->
   <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
     <span class="chip" onclick="sendChatQuick('Gasté S/25 en almuerzo hoy')">🍽 Almuerzo</span>
@@ -457,7 +471,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <span class="chip" onclick="sendChatQuick('¿Cuánto llevo gastado este mes?')">📊 Resumen</span>
     <span class="chip" onclick="sendChatQuick('¿Cuánto ahorré este mes?')">🐷 Ahorro</span>
   </div>
-
+ 
   <!-- Chat window -->
   <div class="card mb-3" style="height:380px;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:4px;" id="chatWindow">
     <div class="chat-wrap" id="chatMessages">
@@ -469,7 +483,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
         También puedo registrar todo automáticamente con tu API Key configurada.</div>
     </div>
   </div>
-
+ 
   <!-- Input chat -->
   <div class="flex gap-2">
     <input type="text" id="chatInput" placeholder="💬 Decime un gasto, ingreso o pregunta..." style="flex:1;" onkeydown="if(event.key==='Enter')sendChat()" />
@@ -479,12 +493,12 @@ tr:hover td{background:rgba(255,255,255,.02);}
   </div>
   <div style="font-size:.68rem;color:var(--muted);margin-top:6px;">Sin API Key → respuestas básicas locales. Con API Key → IA completa con Claude.</div>
 </div>
-
+ 
 <!-- ══════════ CONFIG ══════════ -->
 <div id="section-config" class="section fade-in">
   <h2 style="font-weight:800;font-size:1.05rem;margin-bottom:16px;">⚙️ Configuración</h2>
   <div class="grid gap-4" style="grid-template-columns:1fr 1fr;">
-
+ 
     <div class="card p-4">
       <div class="metric-label mb-3">🏛️ Descuentos AFP Integra (Mixta)</div>
       <div class="grid gap-3">
@@ -501,7 +515,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
         </div>
       </div>
     </div>
-
+ 
     <div class="card p-4">
       <div class="metric-label mb-3">🔑 API Key Anthropic (Scanner + Chat IA)</div>
       <input type="text" id="cfg-apikey" placeholder="sk-ant-..." oninput="saveApiKey()" />
@@ -517,7 +531,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
         </div>
       </div>
     </div>
-
+ 
     <div class="card p-4">
       <div class="metric-label mb-3">🏦 Saldos Bancarios</div>
       <div class="grid gap-2">
@@ -526,7 +540,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
         <div><label class="metric-label mb-1 block">🟡 BCP (S/)</label><input type="number" id="cfg-bcp" value="0" step="0.01" oninput="saveBancos()" /></div>
       </div>
     </div>
-
+ 
     <div class="card p-4">
       <div class="metric-label mb-3">💾 Datos & Backup</div>
       <div class="flex flex-col gap-2">
@@ -536,12 +550,12 @@ tr:hover td{background:rgba(255,255,255,.02);}
         <button class="btn btn-danger" onclick="confirmarBorrarTodo()">🗑️ Borrar todo</button>
       </div>
     </div>
-
+ 
   </div>
 </div>
-
+ 
 </main>
-
+ 
 <!-- MOBILE BOTTOM NAV -->
 <nav class="mobile-nav z1">
   <button class="mobile-nav-btn active" onclick="switchSection('dashboard')" id="mnav-dashboard">
@@ -560,7 +574,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
     <span class="nav-icon">⚙️</span><span>Config</span>
   </button>
 </nav>
-
+ 
 <!-- MODAL GASTO -->
 <div id="modalGasto" class="modal-overlay" style="display:none;">
   <div class="modal-box">
@@ -592,6 +606,14 @@ tr:hover td{background:rgba(255,255,255,.02);}
           <select id="g-tipo"><option value="variable">Variable</option><option value="fijo">Fijo</option></select>
         </div>
       </div>
+      <div><label class="metric-label mb-1 block">💳 Descontar de banco</label>
+        <select id="g-banco">
+          <option value="ibk">🟢 Interbank</option>
+          <option value="bbva">🔵 BBVA</option>
+          <option value="bcp">🟡 BCP</option>
+          <option value="ninguno">— Sin descontar</option>
+        </select>
+      </div>
       <div><label class="metric-label mb-1 block">Notas</label><textarea id="g-notas" rows="2" placeholder="Detalle opcional..."></textarea></div>
       <div class="flex gap-2 justify-end">
         <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
@@ -600,7 +622,7 @@ tr:hover td{background:rgba(255,255,255,.02);}
     </div>
   </div>
 </div>
-
+ 
 <!-- MODAL BANCOS -->
 <div id="modalBancos" class="modal-overlay" style="display:none;">
   <div class="modal-box">
@@ -619,10 +641,10 @@ tr:hover td{background:rgba(255,255,255,.02);}
     </div>
   </div>
 </div>
-
+ 
 <!-- NOTIFICATION -->
 <div id="notif" class="notif" style="display:none;"></div>
-
+ 
 <script>
 // ═══════════════════════════════════════════
 // CONSTANTS
@@ -630,10 +652,12 @@ tr:hover td{background:rgba(255,255,255,.02);}
 const CATS_EMOJI={'Alimentación':'🍽','Transporte':'🚌','Servicios':'💡','Entretenimiento':'🎮','Salud':'🏥','Mascotas':'🐾','Deudas/Cuotas':'💳','Otros':'📦'};
 const CATS_COLOR={'Alimentación':'#00e5a0','Transporte':'#4f8aff','Servicios':'#f5c542','Entretenimiento':'#a78bfa','Salud':'#ff6b6b','Mascotas':'#fb923c','Deudas/Cuotas':'#38bdf8','Otros':'#6b7280'};
 const MESES_LABEL=['','Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Set','Oct','Nov','Dic'];
-
+ 
 let gastos=[], ingresos=[], bancos={bbva:1045,ibk:70,bcp:0}, charts={};
 let chatHistory=[];
-
+// Configuración quincena
+const QUINCENA={monto:1107.87,banco:'ibk',dias:[15,30]};
+ 
 // ═══════════════════════════════════════════
 // STORAGE
 // ═══════════════════════════════════════════
@@ -662,7 +686,7 @@ function updateApiStatus(){
   if(k&&k.startsWith('sk-ant-'))el.innerHTML='<span style="color:var(--accent);">✅ API Key activa — Scanner + Chat IA funcionando</span>';
   else el.innerHTML='<span style="color:var(--accent3);">❌ Sin API Key — Funciones básicas activas</span>';
 }
-
+ 
 // ═══════════════════════════════════════════
 // AFP CALCULATIONS (tus montos exactos)
 // ═══════════════════════════════════════════
@@ -722,7 +746,7 @@ function toggleAfpDetail(){
   const b=document.getElementById('afp-detail-box');
   b.style.display=b.style.display==='none'?'block':'none';
 }
-
+ 
 // ═══════════════════════════════════════════
 // BANCOS
 // ═══════════════════════════════════════════
@@ -775,7 +799,7 @@ function guardarBancos(){
   saveData(); renderBancos(); closeBancoModal();
   showNotif('✅ Saldos bancarios actualizados');
 }
-
+ 
 // ═══════════════════════════════════════════
 // METRICS
 // ═══════════════════════════════════════════
@@ -804,19 +828,19 @@ function updateMetricaGastos(){
   const ef=el('total-fijos'); if(ef) ef.textContent=`S/ ${fmt(fijos)}`;
   const ev=el('total-variables'); if(ev) ev.textContent=`S/ ${fmt(vars)}`;
 }
-
+ 
 // ═══════════════════════════════════════════
 // CHARTS
 // ═══════════════════════════════════════════
 const tooltipCfg={backgroundColor:'#111318',borderColor:'#222733',borderWidth:1,titleColor:'#e8ecf4',bodyColor:'#00e5a0',titleFont:{family:"'Space Mono',monospace",size:10},bodyFont:{family:"'Space Mono',monospace",size:11}};
 const tickCfg={color:'#6b7280',font:{family:"'Space Mono',monospace",size:9}};
 const gridCfg={color:'#222733'};
-
+ 
 function getMesesConDatos(){
   const set=new Set(gastos.map(g=>{const d=new Date(g.fecha+'T12:00:00');return`${d.getFullYear()}-${d.getMonth()+1}`;}));
   return[...set].sort();
 }
-
+ 
 function renderBarChart(){
   const mode=document.getElementById('barChartMode')?.value||'mensual';
   const bruto=parseFloat(document.getElementById('cfg-sueldo')?.value||2500);
@@ -833,7 +857,7 @@ function renderBarChart(){
     {label:'💸 Gastos',data:gastData,backgroundColor:'rgba(255,107,107,.65)',borderColor:'#ff6b6b',borderWidth:1,borderRadius:4}
   ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#6b7280',font:{family:"'Space Mono',monospace",size:9}}},tooltip:{...tooltipCfg,callbacks:{label:ctx=>` S/ ${fmt(ctx.parsed.y)}`}}},scales:{x:{ticks:tickCfg,grid:gridCfg},y:{ticks:{...tickCfg,callback:v=>'S/'+v},grid:gridCfg}}}});
 }
-
+ 
 function renderDonut(){
   const mesVal=document.getElementById('donutMes')?.value||'all';
   let data=mesVal==='all'?gastos:gastos.filter(g=>{const d=new Date(g.fecha+'T12:00:00');return String(d.getMonth()+1)===mesVal;});
@@ -843,7 +867,7 @@ function renderDonut(){
   if(charts.donut)charts.donut.destroy();
   charts.donut=new Chart(ctx,{type:'doughnut',data:{labels:cats.map(c=>CATS_EMOJI[c]+' '+c),datasets:[{data:vals,backgroundColor:Object.values(CATS_COLOR),borderColor:'#0a0c10',borderWidth:2,hoverOffset:10}]},options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{position:'right',labels:{color:'#6b7280',font:{family:"'Space Mono',monospace",size:8},padding:6,boxWidth:8}},tooltip:{...tooltipCfg,callbacks:{label:ctx=>` ${ctx.label}: S/ ${fmt(ctx.parsed)}`}}}}});
 }
-
+ 
 function renderLineChart(){
   const meses=getMesesConDatos();
   const bruto=parseFloat(document.getElementById('cfg-sueldo')?.value||2500);
@@ -854,7 +878,7 @@ function renderLineChart(){
   if(charts.line)charts.line.destroy();
   charts.line=new Chart(ctx,{type:'line',data:{labels,datasets:[{label:'🐷 Ahorro',data:ahorros,borderColor:'#f5c542',backgroundColor:'rgba(245,197,66,.08)',pointBackgroundColor:'#f5c542',pointRadius:5,fill:true,tension:.4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#6b7280',font:{family:"'Space Mono',monospace",size:9}}},tooltip:{...tooltipCfg,callbacks:{label:ctx=>` S/ ${fmt(ctx.parsed.y)}`}}},scales:{x:{ticks:tickCfg,grid:gridCfg},y:{ticks:{...tickCfg,callback:v=>'S/'+v},grid:gridCfg}}}});
 }
-
+ 
 function renderRadar(){
   const mesVal=document.getElementById('radarMes')?.value||'all';
   let data=mesVal==='all'?gastos:gastos.filter(g=>{const d=new Date(g.fecha+'T12:00:00');return String(d.getMonth()+1)===mesVal;});
@@ -864,7 +888,7 @@ function renderRadar(){
   if(charts.radar)charts.radar.destroy();
   charts.radar=new Chart(ctx,{type:'radar',data:{labels:cats.map(c=>CATS_EMOJI[c]+' '+c),datasets:[{label:'Gastos',data:vals,borderColor:'#4f8aff',backgroundColor:'rgba(79,138,255,.1)',pointBackgroundColor:'#4f8aff',pointRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{...tooltipCfg,callbacks:{label:ctx=>` S/ ${fmt(ctx.parsed.r)}`}}},scales:{r:{ticks:{color:'#6b7280',font:{family:"'Space Mono',monospace",size:7},backdropColor:'transparent'},grid:{color:'#222733'},pointLabels:{color:'#6b7280',font:{family:"'Space Mono',monospace",size:7}}}}}});
 }
-
+ 
 function renderChartBancos(){
   const ctx=document.getElementById('chartBancos');if(!ctx)return;
   if(charts.bancos)charts.bancos.destroy();
@@ -872,9 +896,9 @@ function renderChartBancos(){
   if(total===0)return;
   charts.bancos=new Chart(ctx,{type:'doughnut',data:{labels:['🔵 BBVA','🟢 Interbank','🟡 BCP'],datasets:[{data:[bancos.bbva,bancos.ibk,bancos.bcp],backgroundColor:['#004A97','#00A651','#FFD700'],borderColor:'#0a0c10',borderWidth:2,hoverOffset:8}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'bottom',labels:{color:'#6b7280',font:{family:"'Space Mono',monospace",size:9},padding:8}},tooltip:{...tooltipCfg,callbacks:{label:ctx=>` S/ ${fmt(ctx.parsed)}`}}}}});
 }
-
+ 
 function renderAllCharts(){renderBarChart();renderDonut();renderLineChart();renderRadar();renderChartBancos();}
-
+ 
 // ═══════════════════════════════════════════
 // TABLA RESUMEN
 // ═══════════════════════════════════════════
@@ -904,7 +928,7 @@ function renderTablaResumen(){
     </tr>`;
   }).join('');
 }
-
+ 
 // ═══════════════════════════════════════════
 // TABLA GASTOS
 // ═══════════════════════════════════════════
@@ -942,7 +966,7 @@ function renderTablaGastos(){
     </tr>`;
   }).join('');
 }
-
+ 
 // ═══════════════════════════════════════════
 // GASTO CRUD
 // ═══════════════════════════════════════════
@@ -954,6 +978,7 @@ function openAddGasto(){
   document.getElementById('g-fecha').value=new Date().toISOString().split('T')[0];
   document.getElementById('g-cat').value='Alimentación';
   document.getElementById('g-tipo').value='variable';
+  document.getElementById('g-banco').value='ibk';
   document.getElementById('g-notas').value='';
   document.getElementById('modalGasto').style.display='flex';
 }
@@ -966,6 +991,7 @@ function editGasto(id){
   document.getElementById('g-fecha').value=g.fecha;
   document.getElementById('g-cat').value=g.categoria;
   document.getElementById('g-tipo').value=g.tipo;
+  document.getElementById('g-banco').value=g.banco||'ibk';
   document.getElementById('g-notas').value=g.notas||'';
   document.getElementById('modalGasto').style.display='flex';
 }
@@ -975,17 +1001,69 @@ function guardarGasto(){
   const fecha=document.getElementById('g-fecha').value;
   if(!desc||!monto||!fecha){showNotif('⚠️ Completá descripción, monto y fecha.','warn');return;}
   const id=document.getElementById('edit-id').value;
-  const obj={id:id||Date.now().toString(),descripcion:desc,monto,fecha,categoria:document.getElementById('g-cat').value,tipo:document.getElementById('g-tipo').value,notas:document.getElementById('g-notas').value.trim(),fuente:'manual',createdAt:id?undefined:new Date().toISOString()};
-  if(id){const idx=gastos.findIndex(x=>x.id===id);gastos[idx]={...gastos[idx],...obj};showNotif('✅ Gasto actualizado');}
-  else{gastos.push(obj);showNotif('✅ Gasto guardado');}
+  const banco=document.getElementById('g-banco')?.value||'ibk';
+  const obj={id:id||Date.now().toString(),descripcion:desc,monto,fecha,categoria:document.getElementById('g-cat').value,tipo:document.getElementById('g-tipo').value,notas:document.getElementById('g-notas').value.trim(),fuente:'manual',banco,createdAt:id?undefined:new Date().toISOString()};
+  if(id){
+    // Revertir descuento anterior antes de actualizar
+    const old=gastos.find(x=>x.id===id);
+    if(old&&old.banco&&bancos[old.banco]!==undefined) bancos[old.banco]+=old.monto;
+    const idx=gastos.findIndex(x=>x.id===id);
+    gastos[idx]={...gastos[idx],...obj};
+    // Aplicar nuevo descuento
+    if(bancos[banco]!==undefined) bancos[banco]=Math.max(0,bancos[banco]-monto);
+    showNotif(`✅ Gasto actualizado · ${bancoLabel(banco)}: S/ ${fmt(bancos[banco])}`);
+  } else {
+    gastos.push(obj);
+    if(bancos[banco]!==undefined) bancos[banco]=Math.max(0,bancos[banco]-monto);
+    showNotif(`✅ S/ ${fmt(monto)} descontado de ${bancoLabel(banco)} · Saldo: S/ ${fmt(bancos[banco])}`);
+  }
   saveData();closeModal();refreshAll();
 }
-function deleteGasto(id){if(!confirm('¿Eliminar este gasto?'))return;gastos=gastos.filter(x=>x.id!==id);saveData();refreshAll();showNotif('🗑️ Gasto eliminado','warn');}
+function deleteGasto(id){
+  if(!confirm('¿Eliminar este gasto?'))return;
+  const g=gastos.find(x=>x.id===id);
+  if(g&&g.banco&&bancos[g.banco]!==undefined){bancos[g.banco]+=g.monto;showNotif(`🗑️ Gasto eliminado · S/ ${fmt(g.monto)} devuelto a ${bancoLabel(g.banco)}`);}
+  else showNotif('🗑️ Gasto eliminado','warn');
+  gastos=gastos.filter(x=>x.id!==id);saveData();refreshAll();
+}
+function bancoLabel(b){return b==='bbva'?'🔵 BBVA':b==='ibk'?'🟢 Interbank':'🟡 BCP';}
 function closeModal(){document.getElementById('modalGasto').style.display='none';}
-
+ 
 // ═══════════════════════════════════════════
-// SCANNER IA (ingresos + gastos)
+// QUINCENA
 // ═══════════════════════════════════════════
+function checkQuincena(){
+  const hoy=new Date();
+  const dia=hoy.getDate();
+  const mes=hoy.getMonth()+1;
+  const anio=hoy.getFullYear();
+  const key=`fp_quincena_${anio}_${mes}_${dia}`;
+  const yaRegistrado=localStorage.getItem(key);
+  const esDiaQ=dia===15||(dia>=28&&esUltimoDiaHabil(hoy));
+  const banner=document.getElementById('quincena-banner');
+  if(banner&&esDiaQ&&!yaRegistrado) banner.style.display='block';
+}
+function esUltimoDiaHabil(fecha){
+  const ultimo=new Date(fecha.getFullYear(),fecha.getMonth()+1,0).getDate();
+  return fecha.getDate()===ultimo||fecha.getDate()===ultimo-1||fecha.getDate()===ultimo-2;
+}
+function registrarQuincena(){
+  const monto=QUINCENA.monto;
+  const hoy=new Date().toISOString().split('T')[0];
+  // Sumar al banco Interbank
+  bancos.ibk+=monto;
+  // Registrar como ingreso
+  const obj={id:Date.now().toString(),descripcion:'💼 Quincena sueldo',monto,fecha:hoy,categoria:'Sueldo',fuente:'quincena',createdAt:new Date().toISOString()};
+  ingresos.push(obj);
+  // Marcar como registrado hoy
+  const d=new Date();
+  localStorage.setItem(`fp_quincena_${d.getFullYear()}_${d.getMonth()+1}_${d.getDate()}`,'1');
+  saveData();refreshAll();
+  document.getElementById('quincena-banner').style.display='none';
+  showNotif(`✅ Quincena S/ ${fmt(monto)} sumada a Interbank · Nuevo saldo: S/ ${fmt(bancos.ibk)}`);
+}
+ 
+ 
 document.getElementById('ia-operacion')?.addEventListener('change',function(){
   const isIngreso=this.value==='ingreso';
   document.getElementById('ia-gasto-fields').style.display=isIngreso?'none':'block';
@@ -1016,9 +1094,9 @@ async function analyzeImageWithIA(dataUrl,mimeType){
   }
   const base64=dataUrl.split(',')[1];
   const prompt=`Sos un asistente de finanzas personales peruano. Analizá esta imagen (puede ser ticket, boleta, recibo, captura de Yape, Plin, transferencia bancaria, o depósito de sueldo).
-
+ 
 Determiná si es un INGRESO (sueldo, transferencia recibida, pago recibido) o un GASTO (compra, pago de servicio, transferencia enviada).
-
+ 
 Respondé SOLO en JSON válido sin markdown ni texto extra:
 {
   "tipo_operacion": "gasto" o "ingreso",
@@ -1031,7 +1109,7 @@ Respondé SOLO en JSON válido sin markdown ni texto extra:
   "nota": "detalle adicional o vacío",
   "confianza": "alta" o "media" o "baja"
 }
-
+ 
 Si no podés detectar nada claro: {"error":"no detectado","razon":"explicación breve"}`;
   try{
     const resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01'},body:JSON.stringify({model:'claude-opus-4-5',max_tokens:500,messages:[{role:'user',content:[{type:'image',source:{type:'base64',media_type:mimeType||'image/jpeg',data:base64}},{type:'text',text:prompt}]}]})});
@@ -1066,10 +1144,15 @@ function confirmarScannerIA(){
   const operacion=document.getElementById('ia-operacion').value;
   if(operacion==='ingreso'){
     const obj={id:Date.now().toString(),descripcion:desc,monto,fecha,categoria:document.getElementById('ia-ingreso-cat').value,fuente:'scanner',createdAt:new Date().toISOString()};
-    ingresos.push(obj);saveData();refreshAll();showNotif('✅ Ingreso guardado desde Scanner IA');
+    ingresos.push(obj);
+    bancos.ibk+=monto;
+    saveData();refreshAll();showNotif(`✅ Ingreso S/ ${fmt(monto)} sumado a Interbank · Saldo: S/ ${fmt(bancos.ibk)}`);
   }else{
-    const obj={id:Date.now().toString(),descripcion:desc,monto,fecha,categoria:document.getElementById('ia-cat').value,tipo:document.getElementById('ia-tipo-gasto').value,notas:'',fuente:'scanner',createdAt:new Date().toISOString()};
-    gastos.push(obj);saveData();refreshAll();showNotif('✅ Gasto guardado desde Scanner IA');
+    const banco='ibk';
+    const obj={id:Date.now().toString(),descripcion:desc,monto,fecha,categoria:document.getElementById('ia-cat').value,tipo:document.getElementById('ia-tipo-gasto').value,notas:'',fuente:'scanner',banco,createdAt:new Date().toISOString()};
+    gastos.push(obj);
+    bancos[banco]=Math.max(0,bancos[banco]-monto);
+    saveData();refreshAll();showNotif(`✅ Gasto S/ ${fmt(monto)} descontado de Interbank · Saldo: S/ ${fmt(bancos[banco])}`);
   }
   resetScanner();
 }
@@ -1092,19 +1175,19 @@ function addScanHistorial(item){
       <div class="mono" style="color:${s.tipo==='ingreso'?'var(--accent)':'var(--accent3)'};font-weight:700;">S/ ${fmt(s.monto||0)}</div>
     </div>`).join('');
 }
-
+ 
 // ═══════════════════════════════════════════
 // CHAT IA
 // ═══════════════════════════════════════════
 function sendChatQuick(msg){document.getElementById('chatInput').value=msg;sendChat();}
-
+ 
 async function sendChat(){
   const input=document.getElementById('chatInput');
   const msg=input.value.trim();if(!msg)return;
   input.value='';
   appendChatMsg(msg,'user');
   chatHistory.push({role:'user',content:msg});
-
+ 
   const apiKey=getApiKey();
   if(!apiKey||!apiKey.startsWith('sk-ant-')){
     // Modo offline básico
@@ -1113,18 +1196,18 @@ async function sendChat(){
     chatHistory.push({role:'assistant',content:resp});
     return;
   }
-
+ 
   appendChatMsg('⏳ Pensando...','bot','thinking');
-
+ 
   const bruto=parseFloat(document.getElementById('cfg-sueldo')?.value||2500);
   const r=calcAFP(bruto);
   const totalGastos=gastos.reduce((a,b)=>a+b.monto,0);
   const gastosEsteM=getFilteredGastos().reduce((a,b)=>a+b.monto,0);
   const ahorro=r.neto-gastosEsteM;
   const bancosTotal=bancos.bbva+bancos.ibk+bancos.bcp;
-
+ 
   const systemPrompt=`Sos un asistente financiero personal amigable para un usuario peruano. Tu objetivo es ayudarlo a registrar ingresos/gastos y darle insights de sus finanzas.
-
+ 
 DATOS ACTUALES DEL USUARIO:
 - Sueldo bruto: S/ ${fmt(bruto)}
 - Sueldo neto (AFP Integra): S/ ${fmt(r.neto)}
@@ -1134,7 +1217,7 @@ DATOS ACTUALES DEL USUARIO:
 - Ahorro estimado: S/ ${fmt(ahorro)}
 - Bancos: BBVA S/ ${fmt(bancos.bbva)}, IBK S/ ${fmt(bancos.ibk)}, BCP S/ ${fmt(bancos.bcp)}, Total S/ ${fmt(bancosTotal)}
 - Últimos 5 gastos: ${gastos.slice(-5).map(g=>`${g.descripcion} S/${g.monto}`).join(', ')||'ninguno aún'}
-
+ 
 INSTRUCCIONES:
 - Si el usuario menciona un GASTO (compré, gasté, pagué, etc.), extraé: monto, descripción, categoría. Respondé confirmando y usá exactamente este formato al final: [REGISTRAR_GASTO|descripcion|monto|categoria|tipo]
 - Si menciona un INGRESO (recibí, me pagaron, etc.), extraé: monto, descripción. Respondé y usá: [REGISTRAR_INGRESO|descripcion|monto|categoria]
@@ -1142,7 +1225,7 @@ INSTRUCCIONES:
 - Sé breve, amigable, usá emojis. Hablá en peruano (soles, pej, pe).
 - Categorías válidas: Alimentación, Transporte, Servicios, Entretenimiento, Salud, Mascotas, Deudas/Cuotas, Otros
 - Tipos: fijo o variable`;
-
+ 
   try{
     const msgs=chatHistory.slice(-8).map(h=>({role:h.role,content:h.content}));
     const resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:400,system:systemPrompt,messages:msgs})});
@@ -1172,7 +1255,7 @@ INSTRUCCIONES:
     appendChatMsg('❌ Error: '+err.message+'. Revisá tu API Key en Config.','bot');
   }
 }
-
+ 
 function localChatResponse(msg){
   const m=msg.toLowerCase();
   const bruto=parseFloat(document.getElementById('cfg-sueldo')?.value||2500);
@@ -1180,7 +1263,7 @@ function localChatResponse(msg){
   const gastosM=getFilteredGastos().reduce((a,b)=>a+b.monto,0);
   const ahorro=r.neto-gastosM;
   const bancosTotal=bancos.bbva+bancos.ibk+bancos.bcp;
-
+ 
   if(m.includes('ahorro')||m.includes('ahorré'))return`🐷 Según el filtro actual, tu ahorro es <strong>S/ ${fmt(ahorro)}</strong> (${((ahorro/r.neto)*100).toFixed(1)}% del neto).`;
   if(m.includes('gast')&&(m.includes('cuánto')||m.includes('cuanto')))return`💸 Gastos registrados (filtro actual): <strong>S/ ${fmt(gastosM)}</strong>`;
   if(m.includes('sueldo')||m.includes('neto'))return`💼 Tu sueldo neto (luego de AFP) es <strong>S/ ${fmt(r.neto)}</strong>`;
@@ -1188,7 +1271,7 @@ function localChatResponse(msg){
   if(m.includes('interbank')||m.includes('ibk'))return`🟢 Interbank: <strong>S/ ${fmt(bancos.ibk)}</strong>`;
   if(m.includes('bcp'))return`🟡 BCP: <strong>S/ ${fmt(bancos.bcp)}</strong>`;
   if(m.includes('banco')||m.includes('saldo'))return`🏦 Saldo total bancos: <strong>S/ ${fmt(bancosTotal)}</strong> (BBVA S/${fmt(bancos.bbva)} · IBK S/${fmt(bancos.ibk)} · BCP S/${fmt(bancos.bcp)})`;
-
+ 
   // Detect expense from text
   const montoMatch=msg.match(/s\/?\s*(\d+[\.,]?\d*)/i)||msg.match(/(\d+[\.,]?\d*)\s*sol/i)||msg.match(/(\d+[\.,]?\d*)\s*soles/i);
   if(montoMatch&&(m.includes('gast')||m.includes('pag')||m.includes('compr'))){
@@ -1197,7 +1280,7 @@ function localChatResponse(msg){
   }
   return`🤖 Entendido! Configurá tu API Key en ⚙️ Config para que pueda registrar gastos e ingresos automáticamente con IA. Por ahora puedo responderte preguntas básicas sobre tus finanzas. Probá: "¿cuánto gasté?", "¿cuánto ahorré?", "¿cuánto tengo en BBVA?"`;
 }
-
+ 
 function appendChatMsg(html,who,id=''){
   const wrap=document.getElementById('chatMessages');
   const div=document.createElement('div');
@@ -1209,7 +1292,7 @@ function appendChatMsg(html,who,id=''){
   win.scrollTop=win.scrollHeight;
 }
 function removeChatMsg(id){const el=document.getElementById('chat-'+id);if(el)el.remove();}
-
+ 
 // ═══════════════════════════════════════════
 // NAVIGATION
 // ═══════════════════════════════════════════
@@ -1228,7 +1311,7 @@ function populateMesSelects(){
   const allOpt='<option value="all">Todos</option>';
   ['donutMes','radarMes','filterMesGasto'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=allOpt+opts;});
 }
-
+ 
 // ═══════════════════════════════════════════
 // EXPORT / IMPORT
 // ═══════════════════════════════════════════
@@ -1257,7 +1340,7 @@ function confirmarBorrarTodo(){
   if(!confirm('¿Borrar TODOS los datos? No se puede deshacer.'))return;
   gastos=[];ingresos=[];saveData();refreshAll();showNotif('🗑️ Datos borrados','warn');
 }
-
+ 
 // ═══════════════════════════════════════════
 // NOTIFICATIONS
 // ═══════════════════════════════════════════
@@ -1268,31 +1351,31 @@ function showNotif(msg,type='ok'){
   el.style.borderColor=type==='warn'?'var(--accent3)':'var(--accent)';
   clearTimeout(notifTimer);notifTimer=setTimeout(()=>{el.style.display='none';},3200);
 }
-
+ 
 // ═══════════════════════════════════════════
 // REFRESH
 // ═══════════════════════════════════════════
 function refreshAll(){populateMesSelects();recalcular();renderAllCharts();renderTablaGastos();renderTablaResumen();}
-
+ 
 // ═══════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════
 window.addEventListener('DOMContentLoaded',()=>{
   loadData();
-
+ 
   // Load API key
   const savedKey=getApiKey();
   if(savedKey)document.getElementById('cfg-apikey').value=savedKey;
   updateApiStatus();
-
+ 
   // Sync config inputs from loaded bancos
   document.getElementById('cfg-bbva').value=bancos.bbva;
   document.getElementById('cfg-ibk').value=bancos.ibk;
   document.getElementById('cfg-bcp').value=bancos.bcp;
-
+ 
   // Set today's date
   document.getElementById('g-fecha').value=new Date().toISOString().split('T')[0];
-
+ 
   // Demo data if empty
   if(gastos.length===0){
     gastos=[
@@ -1311,10 +1394,9 @@ window.addEventListener('DOMContentLoaded',()=>{
     ];
     saveData();
   }
-
+ 
   refreshAll();
-
-  // Close modals on overlay click
+  checkQuincena();
   document.getElementById('modalGasto').addEventListener('click',e=>{if(e.target===document.getElementById('modalGasto'))closeModal();});
   document.getElementById('modalBancos').addEventListener('click',e=>{if(e.target===document.getElementById('modalBancos'))closeBancoModal();});
 });
